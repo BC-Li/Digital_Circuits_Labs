@@ -20,7 +20,14 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module source(
-
-    );
+module d_ff_r(
+input CLK,RST_N,D,
+output reg q);
+always@(posedge CLK)
+begin
+if(RST_N==0)
+q <= 1'b0;
+else
+q <= D;
+end
 endmodule
