@@ -32,7 +32,7 @@ begin
         2'b01: o = b;
         2'b10: o = c;
         2'b11: o = d;
-        default: o = 4'h0;
+        default: o = 4'h0;//
     endcase
 end
 endmodule 
