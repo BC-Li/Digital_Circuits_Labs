@@ -1,0 +1,130 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 2020/11/23 21:18:13
+// Design Name: 
+// Module Name: q1
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+// solution to q3
+module q3(
+    input clk, 
+    input rst,
+    input dir,
+    input button,
+    output reg [3:0] hexplay_data, reg [2:0] hexplay_an
+    );
+
+    reg [3:0] minute;
+    reg [3:0] second_10;
+    reg [3:0] second_1;
+    reg [3:0] second_0_1;
+    reg [31:0] data;
+    reg button_edge;
+
+//  button
+
+    signal_edge signal_edge_1(clk,button,button_edge);
+
+//  Hexplay 50Hz
+    reg [32:0] hexplay_cnt;
+    reg [26:0] timer_cnt;
+        
+        always@(posedge clk) 
+        begin
+	        if (timer_cnt >= 10000000)
+		        timer_cnt <= 0;
+	        else
+		        timer_cnt <= timer_cnt + 1;
+        end
+
+        always@(posedge clk) 
+        begin
+	        if (hexplay_cnt >= (2000000/8))
+		        hexplay_cnt <= 0;
+	        else
+		        hexplay_cnt <= hexplay_cnt + 1;
+        end
+
+        always@(posedge clk) 
+        begin
+	        if (hexplay_cnt == 0)
+            begin
+		        if (hexplay_an == 7)
+			        hexplay_an <= 0;
+		    else
+			    hexplay_an <= hexplay_an + 1;
+	        end
+        end
+
+    always@(*) begin
+	    case(hexplay_an)
+		    0: hexplay_data = data[3:0];
+		    1: hexplay_data = data[7:4];
+		    2: hexplay_data = data[11:8];
+		    3: hexplay_data = data[15:12];
+		    4: hexplay_data = data[19:16];
+		    5: hexplay_data = data[23:20];
+		    6: hexplay_data = data[27:24];
+		    7: hexplay_data = data[31:28];
+	    endcase
+    end
+
+    always@(posedge clk) begin
+    	if (timer_cnt == 0) begin
+            if(button_edge == 1)begin
+                if (dir) begin
+    			    data <= data - 1;
+    		    end
+    		    else begin
+    			    data <= data + 1;
+    		    end    
+            end
+            else begin
+                data <= data;
+            end
+    	end
+    end
+    
+endmodule
+
+module jitter_clr(
+input clk,
+input button,
+output button_clean
+);
+reg [3:0] cnt;
+always@(posedge clk)
+begin
+ if(button==1'b0)
+ cnt <= 4'h0;
+ else if(cnt<4'h8)
+ cnt <= cnt + 1'b1;
+end
+assign button_clean = cnt[3];
+endmodule
+
+module signal_edge(
+input clk,
+input button,
+output button_edge);
+reg button_r1,button_r2;
+always@(posedge clk)
+ button_r1 <= button;
+always@(posedge clk)
+ button_r2 <= button_r1;
+assign button_edge = button_r1 & (~button_r2);
+endmodule
