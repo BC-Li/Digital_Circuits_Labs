@@ -61,7 +61,6 @@ module q3(
     end
 
     always@(posedge clk) begin
-    	// if (timer_cnt == 0) begin
             if(rst == 1)begin
                 data <= 32'h1f;
             end
@@ -79,7 +78,6 @@ module q3(
             end
             end
     	end
-    // end
     
 endmodule
 
