@@ -28,12 +28,8 @@ module q3(
     output reg [3:0] hexplay_data, reg [2:0] hexplay_an
     );
 
-    reg [3:0] minute;
-    reg [3:0] second_10;
-    reg [3:0] second_1;
-    reg [3:0] second_0_1;
     reg [31:0] data;
-    reg button_edge;
+    wire button_edge;
 
 //  button
 
@@ -84,7 +80,11 @@ module q3(
     end
 
     always@(posedge clk) begin
-    	if (timer_cnt == 0) begin
+    	// if (timer_cnt == 0) begin
+            if(rst == 1)begin
+                data <= 32'h1f;
+            end
+            else begin
             if(button_edge == 1)begin
                 if (dir) begin
     			    data <= data - 1;
@@ -96,8 +96,9 @@ module q3(
             else begin
                 data <= data;
             end
+            end
     	end
-    end
+    // end
     
 endmodule
 
