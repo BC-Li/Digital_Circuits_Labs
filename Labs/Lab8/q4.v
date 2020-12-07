@@ -65,6 +65,11 @@ module q4(
 
 //  status switch
 
+    initial 
+    begin
+            counter = 0;
+    end
+
     always @(*) begin
         case (curr_state)
             s0:begin
@@ -102,23 +107,30 @@ module q4(
             s4:begin
                 if(sw == 1 & button_edge == 1)begin
                     next_state = s1;
-                    counter = counter + 1;
+                    // counter = counter + 1;
                 end
                 if(sw == 0 & button_edge == 1)begin
                     next_state = s0;
-                    counter = counter + 1;
+                    // counter = counter + 1;
                 end
             end
             default:begin
-                next_state = s0;
-                counter = 0;
+                next_state = next_state;
             end 
         endcase
     end
    
-    always@(posedge clk) begin
-            curr_state <= next_state;
-    	end
+    always@(posedge clk) 
+    begin
+            if(button_edge)
+            begin
+                if(curr_state == s3 & sw == 0)
+                begin
+                    counter <= counter + 1;
+                end
+                curr_state <= next_state;
+            end
+    end
 
 //  button
 
