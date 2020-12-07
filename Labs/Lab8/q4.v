@@ -161,11 +161,21 @@ module q4(
         begin
 	        if (hexplay_cnt == 0)
             begin
-		        if (hexplay_an == 6)    //  hexplay 0-5
+                if (hexplay_an == 8)    //  hexplay 0-5
 			        hexplay_an <= 0;
-		    else
-			    hexplay_an <= hexplay_an + 1;
-	        end
+		        if (hexplay_an == 0)    //  hexplay 0-5
+			        hexplay_an <= hexplay_an + 1;
+		        if (hexplay_an == 1)    //  hexplay 0-5
+			        hexplay_an <= hexplay_an + 1;
+		        if (hexplay_an == 2)    //  hexplay 0-5
+			        hexplay_an <= hexplay_an + 1;
+		        if (hexplay_an == 3)    //  hexplay 0-5
+			        hexplay_an <= hexplay_an + 2;
+		        if (hexplay_an == 5)    //  hexplay 0-5
+			        hexplay_an <= hexplay_an + 2;
+		        if (hexplay_an == 7)    //  hexplay 0-5
+			        hexplay_an <= hexplay_an + 1;
+        end
         end
 
     always@(*) begin
@@ -177,6 +187,7 @@ module q4(
             4: hexplay_data = data[19:16];
 		    5: hexplay_data = data[23:20];
 		    6: hexplay_data = data[27:24];
+		    7: hexplay_data = data[27:24];
 	    endcase
     end
 
