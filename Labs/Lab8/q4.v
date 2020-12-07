@@ -57,11 +57,11 @@ module q4(
 
 //  status
 
-    parameter s0=3'b000; //0
-    parameter s1=3'b001; //1
-    parameter s2=3'b010; //11
-    parameter s3=3'b011; //110
-    parameter s4=3'b100; //1100
+    parameter s0=3'b000; // 0
+    parameter s1=3'b001; // 1
+    parameter s2=3'b010; // 11
+    parameter s3=3'b011; // 110
+    parameter s4=3'b100; // 1100
 
 //  status switch
 
@@ -107,11 +107,9 @@ module q4(
             s4:begin
                 if(sw == 1 & button_edge == 1)begin
                     next_state = s1;
-                    // counter = counter + 1;
                 end
                 if(sw == 0 & button_edge == 1)begin
                     next_state = s0;
-                    // counter = counter + 1;
                 end
             end
             default:begin
@@ -161,19 +159,19 @@ module q4(
         begin
 	        if (hexplay_cnt == 0)
             begin
-                if (hexplay_an == 8)    //  hexplay 0-5
+                if (hexplay_an == 8)    //  hexplay
 			        hexplay_an <= 0;
-		        if (hexplay_an == 0)    //  hexplay 0-5
+		        if (hexplay_an == 0)    //  hexplay
 			        hexplay_an <= hexplay_an + 1;
-		        if (hexplay_an == 1)    //  hexplay 0-5
+		        if (hexplay_an == 1)    //  hexplay
 			        hexplay_an <= hexplay_an + 1;
-		        if (hexplay_an == 2)    //  hexplay 0-5
+		        if (hexplay_an == 2)    //  hexplay
 			        hexplay_an <= hexplay_an + 1;
-		        if (hexplay_an == 3)    //  hexplay 0-5
+		        if (hexplay_an == 3)    //  hexplay
 			        hexplay_an <= hexplay_an + 2;
-		        if (hexplay_an == 5)    //  hexplay 0-5
+		        if (hexplay_an == 5)    //  hexplay
 			        hexplay_an <= hexplay_an + 2;
-		        if (hexplay_an == 7)    //  hexplay 0-5
+		        if (hexplay_an == 7)    //  hexplay
 			        hexplay_an <= hexplay_an + 1;
         end
         end
@@ -219,7 +217,6 @@ module q4(
                 default: data[27:24] <= 3'b0; 
             endcase
     	end
-    // end
     
 endmodule
 
